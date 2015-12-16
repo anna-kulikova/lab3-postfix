@@ -1,21 +1,36 @@
 #include "stack.h"
 
-Stack::Stack()
+template<class ValueType>
+Stack<ValueType>::Stack()
 {
-	list = new List;
+	list = new List<ValueType>;
 }
 
-int Stack::IsEmpty(void)const
+template<class ValueType>
+Stack<ValueType>::~Stack()
+{
+	delete list;
+}
+
+template<class ValueType>
+Stack<ValueType>::Stack(const Stack<ValueType>* stack)
+{
+
+}
+
+template<class ValueType>
+int Stack<ValueType>::IsEmpty(void)const
 {
 	return(list->GetFirst() == 0);
 }
 
-int Stack::IsFull(void)const
+template<class ValueType>
+int Stack<ValueType>::IsFull(void)const
 {
-	Node *tmp;
+	Node<ValueType> *tmp;
 	try
 	{
-		tmp = new Node;
+		tmp = new Node<ValueType>;
 	}
 	catch (...)
 	{
@@ -25,7 +40,8 @@ int Stack::IsFull(void)const
 	return 0;
 }
 
-void Stack::Push(const ValueType key)
+template<class ValueType>
+void Stack<ValueType>::Push(const ValueType key)
 {
 	if (IsFull())
 		throw
@@ -33,13 +49,13 @@ void Stack::Push(const ValueType key)
 	list->PushStart(key);
 }
 
-ValueType Stack::Pop(ValueType key)
+template<class ValueType>
+ValueType Stack<ValueType>::Pop()
 {
 	if (IsEmpty())
 		throw
 		exception("Stack is empty");
 	ValueType tmp = list->GetFirst()->key;
-	list->Remove(key);
+	list->Remove(tmp);
 	return tmp;
 }
-

@@ -1,10 +1,32 @@
 #pragma once
-#include <iostream>
-using namespace std;
-typedef char ValueType;
 
-struct Node
+#include <iostream>
+#include <cstdlib>
+#include <string>
+
+using namespace std;
+
+template<class ValueType>
+class Node
 {
-	Node *Next;
+public:
+	Node<ValueType> *Next;
 	ValueType key;
+
+	Node();
+	Node(const ValueType&);
+	Node(const Node<ValueType>*);
+	~Node();
 };
+
+template<class ValueType>
+Node<ValueType>::Node();
+
+template<class ValueType>
+Node<ValueType>::Node(const ValueType& key);
+
+template<class ValueType>
+Node<ValueType>::Node(const Node<ValueType>* node);
+
+template<class ValueType>
+Node<ValueType>::~Node();
