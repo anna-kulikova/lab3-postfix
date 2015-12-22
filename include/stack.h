@@ -15,6 +15,7 @@ public:
 	int IsFull(void)const;
 	void Push(const ValueType);
 	ValueType Pop();
+	ValueType GetKey(const ValueType);
 };
 
 template<class ValueType>

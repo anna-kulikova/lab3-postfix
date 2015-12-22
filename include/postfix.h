@@ -4,9 +4,8 @@
 class Postfix
 {
 private:
-	Stack<char> Result;
 	Stack<char> Operator;
-	Stack<float> Number;
+	Stack<char> Operand;
 	string expression;
 	int op;
 	int RightBracket();
@@ -15,7 +14,7 @@ private:
 	int IsOperand(const char)const;
 	void Value();
 	int Errors()const;
-	void LessPriority(int);
+	void PriorityDecrease(int);
 public:
 	Postfix();
 	~Postfix();	

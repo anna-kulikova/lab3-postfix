@@ -1,4 +1,6 @@
 #include "list.h"
+#include "node.cpp"
+#include "node.h"
 
 template<class ValueType>
 List<ValueType>::List()
@@ -78,8 +80,8 @@ void List<ValueType>::Remove(ValueType k)
 		return;
 	if (First->key = k)
 		RemoveStart();
-	Node<ValueType> *tmp;
-	while ((First->Next->key != key) && (First->Next->Next != 0))
+	Node<ValueType> *tmp = First;
+	while ((First->Next->key != k) && (First->Next->Next != 0))
 		First = First->Next;
 	First->Next = tmp->Next;
 	First = tmp;
@@ -92,17 +94,17 @@ void List<ValueType>::RemoveStart(void)
 		First = First->Next;
 }
 
-/*template<class ValueType>
+template<class ValueType>
 List<ValueType>::List(const ValueType k)
 {
 	First = new Node<ValueType>(k);
 }
 
-/*template<class ValueType>
+template<class ValueType>
 List<ValueType>::List(const Node<ValueType>* n)
 {
-	First = new Node<ValueType>(n);
-}*/
+	First = n;
+}
 
 
 template<class ValueType>

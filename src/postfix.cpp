@@ -18,7 +18,7 @@ int Postfix::RightBracket()
 	char tmp = Operator.Pop();
 	while (tmp != '(')
 	{
-		Result.Push(tmp);
+		Operand.Push(tmp);
 		tmp = Operator.Pop();
 	}
 	if (!Operator.IsEmpty())
@@ -76,4 +76,52 @@ int Postfix::Priority(const char k)const
 			return 1;
 		}
 	return -1;
+}
+
+void Postfix::Record()
+{
+	int curpriority = 0;
+	int lastpriority = 0;
+	for (int i = 0; i < expression.length(); i++)
+	{
+		if (IsOperand(expression[i]))
+		{
+			Operand.Push(expression[i]);
+		}
+		else if (IsOperator(expression[i])) {
+
+			if (expression[i] = ')')
+			{
+				lastpriority = RightBracket();
+				continue;
+			}
+
+			curpriority = Priority(expression[i]);
+			if (curpriority < lastpriority)
+			{
+				PriorityDecrease(curpriority);
+				lastpriority = curpriority;
+				continue;
+			}
+			lastpriority = curpriority;
+			Operator.Push(expression[i]);
+		}
+		else 
+			continue;
+	}
+	while (!Operator.IsEmpty())
+		Operand.Push(Operator.Pop());
+}
+
+void Postfix::PriorityDecrease(int k)
+{
+	char i = Operator.Pop();
+	while ((k <= Priority(i)) && (!Operator.IsEmpty()))
+	{
+		Operand.Push(i);
+		i = Operator.Pop();
+	}
+	if (Priority(i) < k)
+		Operator.Push(i);
+	Operator.Push(k);
 }

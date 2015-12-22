@@ -1,4 +1,6 @@
 #include "stack.h"
+#include "list.cpp"
+#include "list.h"
 
 template<class ValueType>
 Stack<ValueType>::Stack()
@@ -41,12 +43,12 @@ int Stack<ValueType>::IsFull(void)const
 }
 
 template<class ValueType>
-void Stack<ValueType>::Push(const ValueType key)
+void Stack<ValueType>::Push(const ValueType k)
 {
 	if (IsFull())
 		throw
 		exception("Stack is full");
-	list->PushStart(key);
+	list->PushStart(k);
 }
 
 template<class ValueType>
@@ -59,3 +61,14 @@ ValueType Stack<ValueType>::Pop()
 	list->Remove(tmp);
 	return tmp;
 }
+
+/*template<class ValueType>
+ValueType Stack<ValueType>::GetKey(const ValueType k)
+{
+	while (!IsFull())
+	{
+		if (list->GetFirst()->key == k)
+			return k;
+		list->GetFirst() = list->GetFirst()->Next;
+	}
+}*/

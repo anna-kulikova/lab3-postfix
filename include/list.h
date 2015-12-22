@@ -10,8 +10,8 @@ private:
 public:
 	List();
 	List(const List<ValueType>*);
-	/*List(const ValueType);
-	List(const Node<ValueType>*);*/
+	List(const ValueType);
+	List(const Node<ValueType>*);
 	~List();
 	Node<ValueType>* Find(ValueType);
 	void PushEnd(Node<ValueType>*);
@@ -51,11 +51,11 @@ void List<ValueType>::Remove(ValueType key);
 template<class ValueType>
 void List<ValueType>::RemoveStart(void);
 
-/*template<class ValueType>
+template<class ValueType>
 List<ValueType>::List(const ValueType);
 
 template<class ValueType>
-List<ValueType>::List(const Node<ValueType>*);*/
+List<ValueType>::List(const Node<ValueType>*);
 
 
 template<class ValueType>
