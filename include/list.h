@@ -9,16 +9,16 @@ private:
 	Node<ValueType> *First;
 public:
 	List();
-	List(const List<ValueType>*);
+	List(const List<ValueType>&);
 	List(const ValueType);
 	List(const Node<ValueType>*);
 	~List();
 	Node<ValueType>* Find(ValueType);
-	void PushEnd(Node<ValueType>*);
+	int PushEnd(const ValueType);
 	void PushAfter(Node<ValueType>*, ValueType);
 	void Remove(ValueType);
 	Node<ValueType>* GetFirst(void);
-	void PushStart(ValueType);
+	int PushStart(ValueType);
 	void RemoveStart(void);
 	int operator==(const List<ValueType>&)const;
 	int operator!=(const List<ValueType>&)const;
@@ -28,7 +28,7 @@ template<class ValueType>
 List<ValueType>::List();
 
 template<class ValueType>
-List<ValueType>::List(const List<ValueType>* cur);
+List<ValueType>::List(const List<ValueType>& l);
 
 template<class ValueType>
 List<ValueType>::~List();
@@ -40,7 +40,7 @@ template<class ValueType>
 void List<ValueType>::PushAfter(Node<ValueType>* l, ValueType key);
 
 template<class ValueType>
-void List<ValueType>::PushEnd(Node<ValueType>* l);
+int List<ValueType>::PushEnd(const ValueType k);
 
 template<class ValueType>
 Node<ValueType>* List<ValueType>::GetFirst(void);
@@ -59,7 +59,7 @@ List<ValueType>::List(const Node<ValueType>*);
 
 
 template<class ValueType>
-void List<ValueType>::PushStart(ValueType);
+int List<ValueType>::PushStart(ValueType);
 
 template<class ValueType>
 int List<ValueType>::operator==(const List<ValueType>&)const;

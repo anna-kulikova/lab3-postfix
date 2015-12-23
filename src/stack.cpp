@@ -17,7 +17,7 @@ Stack<ValueType>::~Stack()
 template<class ValueType>
 Stack<ValueType>::Stack(const Stack<ValueType>* stack)
 {
-
+	list = new List<ValueType>(stack.l);
 }
 
 template<class ValueType>
@@ -62,13 +62,4 @@ ValueType Stack<ValueType>::Pop()
 	return tmp;
 }
 
-/*template<class ValueType>
-ValueType Stack<ValueType>::GetKey(const ValueType k)
-{
-	while (!IsFull())
-	{
-		if (list->GetFirst()->key == k)
-			return k;
-		list->GetFirst() = list->GetFirst()->Next;
-	}
-}*/
+

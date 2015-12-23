@@ -9,26 +9,27 @@ List<ValueType>::List()
 }
 
 template<class ValueType>
-List<ValueType>::List(const List<ValueType>* cur)
+List<ValueType>::List(const List<ValueType>& l)
 {
-	List<ValueType> *tmp = new List<ValueType>;
-	tmp->First->key = First->key;
-	cur = tmp;
-	First = First->Next;
-	while (First != 0)
+	First = 0;
+	Node<ValueType>* tmp = l.First;
+	while (tmp != 0)
 	{
-		List<ValueType> *t = new List<ValueType>;
-		t->First->key = First->key;
-		tmp->First->Next = t->GetFirst();
-		First = First->Next;
-		tmp->First = tmp->First->Next;
+		PushEnd(tmp->key);
+		tmp = tmp->Next;
 	}
 }
 
 template<class ValueType>
 List<ValueType>::~List()
 {
-	delete First;
+	Node<ValueType> *tmp = First;
+	while (First != 0)
+	{
+		First = First->Next;
+		delete tmp;
+		tmp = First;
+	}
 }
 
 template<class ValueType>
@@ -51,16 +52,24 @@ void List<ValueType>::PushAfter(Node<ValueType>* l, ValueType k)
 }
 
 template<class ValueType>
-void List<ValueType>::PushEnd(Node<ValueType>* l)
+int List<ValueType>::PushEnd(const ValueType k)
 {
 	if (First == 0)
+		return PushStart(k);
+	Node<ValueType>* n;
+	try
 	{
-		First = l;
-		return;
+		n = new Node<ValueType>(k);
 	}
-	while (First->Next != 0)
-		First = First->Next;
-	First->Next = l;
+	catch (...)
+	{
+		return 1;
+	}
+	Node<ValueType>* first = First;
+	while (first->Next != 0)
+		first = first->Next;
+	first->Next = n;
+	return 0;
 }
 
 template<class ValueType>
@@ -76,15 +85,17 @@ Node<ValueType>* List<ValueType>::GetFirst(void)
 template<class ValueType>
 void List<ValueType>::Remove(ValueType k)
 {
-	if (First == 0)
-		return;
-	if (First->key = k)
-		RemoveStart();
-	Node<ValueType> *tmp = First;
-	while ((First->Next->key != k) && (First->Next->Next != 0))
+	Node<ValueType>* findnode = Find(k);
+	if (First == findnode)
+	{
 		First = First->Next;
-	First->Next = tmp->Next;
-	First = tmp;
+		return;
+	}
+	Node<ValueType>* first = First;
+	while (first->Next != findnode)
+		first = first->Next;
+	first->Next = findnode->Next;
+	delete first;
 }
 
 template<class ValueType>
@@ -108,7 +119,7 @@ List<ValueType>::List(const Node<ValueType>* n)
 
 
 template<class ValueType>
-void List<ValueType>::PushStart(ValueType k)
+int List<ValueType>::PushStart(ValueType k)
 {
 	Node<ValueType>* tmp;
 	try
@@ -117,10 +128,11 @@ void List<ValueType>::PushStart(ValueType k)
 	}
 	catch (...)
 	{
-		return;
+		return 1;
 	}
 	tmp->Next = First;
 	First = tmp;
+	return 0;
 }
 
 template<class ValueType>
