@@ -8,5 +8,6 @@ void main(void)
 {
 	Stack<int>* s = new Stack<int>();
 	s->Push(7);
-	cout << s->GetKey(7) << endl;
+	cout << s << endl; //как вывести ключ
+	s->Pop();
 }
