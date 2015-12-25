@@ -92,12 +92,5 @@ TEST(STACK, can_compare_equal_stacks)
 	ASSERT_NO_THROW(s == s1);
 }
 
-TEST(STACK, compare_equal_stacks_returns_true)
-{
-	Stack<int>* s;
-	Stack<int>* s1;
-	s->Push(4);
-	s1->Push(4);
-	EXPECT_EQ(*s, *s1);
-}
+
 

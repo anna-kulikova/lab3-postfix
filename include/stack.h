@@ -18,6 +18,7 @@ public:
 	int operator==(const Stack<ValueType>& s)const;
 	int operator!=(const Stack<ValueType>& s)const;
 	void Print()const;
+	ValueType GetKey();
 };
 
 template<class ValueType>
@@ -46,3 +47,6 @@ int Stack<ValueType>::operator==(const Stack<ValueType>& s)const;
 
 template <class ValueType>
 void Stack<ValueType>::Print()const;
+
+template <class ValueType>
+ValueType Stack<ValueType>::GetKey();

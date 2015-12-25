@@ -18,7 +18,7 @@ void main(void)
 	cout << endl << "You have pushed a node with key = 6 after a node with key = 5. ";
 	l->Print();
 	l->Remove(2);
-	cout << endl << "You have removed a node with key = 2. ";
+	cout << endl << "You have Removed a node with key = 2. ";
 	l->Print();
 	l->PushStart(8);
 	cout << endl << "You have pushed a node with key = 8 at the beginning. ";

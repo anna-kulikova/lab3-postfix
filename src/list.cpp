@@ -100,6 +100,9 @@ Node<ValueType>* List<ValueType>::GetFirst(void) //получение указателя на начало
 template<class ValueType>
 void List<ValueType>::Remove(ValueType findkey) 
 {
+	if (!First)
+		throw
+		exception("List is empty");
 	Node<ValueType>* n = Find(findkey);
 	if (First == n)
 	{
@@ -174,6 +177,11 @@ void List<ValueType>::PushBefore(ValueType findkey, ValueType k)
 template<class ValueType>
 void List<ValueType>::Print()const //вывод списка
 {
+	if (!First)
+	{
+		cout << "List is empty";
+		return;
+	}
 	Node<ValueType>* tmp = First;
 	while (tmp != 0)
 	{

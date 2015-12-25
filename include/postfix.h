@@ -1,28 +1,16 @@
 #pragma once
 #include "stack.h"
+#include <map>
 
 typedef int ExpType;
 
 class Postfix
 {
-private:
-	Stack<char>* Operator;
-	Stack<char>* Operand;
-	Stack<ExpType>* Result;
-	string expression;
-	string result;
-	int op;
-	int RightBracket();
-	int Priority(const char)const;
-	int IsOperator(const char)const;
-	int IsOperand(const char)const;		
-	void PriorityDecrease(int);	
+protected:
+	int Operator(char);
+	int Line(const string&)const;
+	void Bracket(const string&)const;
 public:
-	Postfix();
-	~Postfix();	
-	void Record();
-	ExpType Count();
-	void Print();
-	int Set(const string&);
-	int Line(void)const;
+	string Record(const string&)const;
+	ExpType Count(const string&, map<char, ExpType>);
 };

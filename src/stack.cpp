@@ -81,3 +81,12 @@ void Stack<ValueType>::Print()const
 	while (!(s->IsEmpty()))
 		cout << s->Pop() << endl;
 }
+
+template <class ValueType>
+ValueType Stack<ValueType>::GetKey()
+{
+	if (IsEmpty())
+		throw
+		exception ("Stack is empty");
+	return list->GetFirst()->key;
+}
