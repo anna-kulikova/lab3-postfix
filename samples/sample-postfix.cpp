@@ -7,7 +7,7 @@ using namespace std;
 
 int main(void)
 {
-	string str = "a*(b+c-d)+(d/(f-c)-(k+l)/s)";
+	/*string str = "a*(b+c-d)+(d/(f-c)-(k+l)/s)";
 	Postfix p;
 	cout << str << endl;
 	map<char, ExpType> m;
@@ -29,6 +29,15 @@ int main(void)
 	cout << "s = " << m['s'] << endl;
 	string str1 = p.Record(str);
 	ExpType res = p.Count(str1, m);
-	cout << "Result: " << res << endl;
+	cout << "Result: " << res << endl;*/
+	string str;
+	getline(cin, str);
+	map<char, ExpType> m;
+	Postfix p;
+	string str1;
+	str1 = p.Record(str);
+	cout << str1 << endl;
+	ExpType result = p.Count(str1, m);
+	cout << result << endl;
 	return 0;
 }
