@@ -9,13 +9,7 @@ void main(void)
 {
 	string str = "";
 	cout << "Enter the  expression:" << endl;
-	char a;
-	cin >> a;
-	while (a != ';')
-	{
-		str += a;
-		cin >> a;
-	}
+	cin >> str;
 	Postfix p;
 	p.Set(str);
 	p.Record();

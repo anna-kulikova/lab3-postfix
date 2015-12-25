@@ -101,9 +101,10 @@ void Postfix::Record()
 		{
 			Operand->Push(expression[i]);
 		}
-		else if (IsOperator(expression[i])) {
+		else if (IsOperator(expression[i]))
+		{
 
-			if (expression[i] = ')')
+			if (expression[i] == ')')
 			{
 				lastpriority = RightBracket();
 				continue;
@@ -157,7 +158,7 @@ int Postfix::Line(void)const
 	char k, t;
 	if (expression.length() > 0)
 		if (IsOperator(expression[0]))
-			if ((expression[0] != '(') && (expression[0] != '-'))
+			if (expression[0] != '-')
 				return 0;
 	while (j < expression.length()) 
 	{
@@ -166,7 +167,6 @@ int Postfix::Line(void)const
 			j++;
 			continue;
 		}
-		else {
 			k = expression[m];
 			t = expression[j];
 			if ((IsOperand(m)) && (IsOperand(t)))
@@ -175,7 +175,6 @@ int Postfix::Line(void)const
 				if (((k == '(') && (t != ')') && (t != '(') && (t != '-')) || ((k != '(') && (t == ')') && (k != ')')))
 					return 0;
 			m = j++;
-		}
 	}
 
 	return 1;
@@ -183,7 +182,7 @@ int Postfix::Line(void)const
 
 ExpType Postfix::Count()
 {
-	if (!op)
+	if (op != 0)
 		throw("Error");
 	ExpType l = 0;
 	ExpType r = 0;

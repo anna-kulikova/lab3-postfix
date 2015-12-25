@@ -5,7 +5,7 @@
 template<class ValueType>
 Stack<ValueType>::Stack()
 {
-	list = new List<ValueType>;
+	list = new List<ValueType>();
 }
 
 template<class ValueType>
@@ -15,9 +15,9 @@ Stack<ValueType>::~Stack()
 }
 
 template<class ValueType>
-Stack<ValueType>::Stack(const Stack<ValueType>* stack)
+Stack<ValueType>::Stack(const Stack<ValueType>& stack)
 {
-	list = new List<ValueType>(stack.l);
+	list = new List<ValueType>(*(stack.list));
 }
 
 template<class ValueType>
@@ -56,10 +56,28 @@ ValueType Stack<ValueType>::Pop()
 {
 	if (IsEmpty())
 		throw
-		exception("Stack is empty");
+			exception ("Stack is empty");
 	ValueType tmp = list->GetFirst()->key;
 	list->Remove(tmp);
 	return tmp;
 }
 
+template <class ValueType>
+int Stack<ValueType>::operator==(const Stack<ValueType>& s)const
+{
+	return (*list == *(s.list));
+}
 
+template <class ValueType>
+int Stack<ValueType>::operator!= (const Stack<ValueType>& s)const
+{
+	return (*list != *(s.list));
+}
+
+template <class ValueType>
+void Stack<ValueType>::Print()const
+{
+	Stack<ValueType>* s = new Stack<ValueType>(*this);
+	while (!(s->IsEmpty()))
+		cout << s->Pop() << endl;
+}

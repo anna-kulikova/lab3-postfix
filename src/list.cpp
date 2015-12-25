@@ -9,7 +9,7 @@ List<ValueType>::List()
 }
 
 template<class ValueType>
-List<ValueType>::List(const List<ValueType>& l)
+List<ValueType>::List(const List<ValueType>& l) //конструктор копирования
 {
 	First = 0;
 	Node<ValueType>* tmp = l.First;
@@ -21,7 +21,7 @@ List<ValueType>::List(const List<ValueType>& l)
 }
 
 template<class ValueType>
-List<ValueType>::~List()
+List<ValueType>::~List() //деструктор
 {
 	Node<ValueType> *tmp = First;
 	while (First != 0)
@@ -33,29 +33,28 @@ List<ValueType>::~List()
 }
 
 template<class ValueType>
-Node<ValueType>* List<ValueType>::Find(ValueType k)
-{
-	while ((First != 0) && (k == First->key))
-		First = First->Next;
-	return First;
-}
-
-template<class ValueType>
-void List<ValueType>::PushAfter(Node<ValueType>* l, ValueType k)
-{
-	Node<ValueType>* tmp = Find(k);
-	if (l == 0)
-		return;
-	l->Next = tmp->Next;
-	tmp->Next = l;
-	return;
-}
-
-template<class ValueType>
-int List<ValueType>::PushEnd(const ValueType k)
+Node<ValueType>* List<ValueType>::Find(ValueType k) //поиск по ключу
 {
 	if (First == 0)
-		return PushStart(k);
+		throw
+			exception("List doesn't exist");	
+	Node<ValueType>* tmp = First;
+	while ((tmp != 0) && (k != tmp->key))
+		tmp = tmp->Next;
+	if (tmp == 0)
+	{
+		delete tmp;
+		throw
+			exception("Key was not found");
+	}
+	return tmp;
+}
+
+template<class ValueType>
+void List<ValueType>::PushAfter(ValueType findkey, ValueType k) //вставка после указанного ключа
+{
+	Node<ValueType>* l = Find(findkey);
+	Node<ValueType>* tmp = l->Next;
 	Node<ValueType>* n;
 	try
 	{
@@ -63,7 +62,27 @@ int List<ValueType>::PushEnd(const ValueType k)
 	}
 	catch (...)
 	{
-		return 1;
+		throw
+			exception("You can't create node");
+	}
+	l->Next = n;
+	n->Next = tmp;
+}
+
+template<class ValueType>
+int List<ValueType>::PushEnd(ValueType k) //вставка в конец
+{
+	if (First == 0)
+		PushStart(k);
+	Node<ValueType>* n;
+	try
+	{
+		n = new Node<ValueType>(k);
+	}
+	catch (...)
+	{
+		throw
+			exception("You can't create node");
 	}
 	Node<ValueType>* first = First;
 	while (first->Next != 0)
@@ -73,53 +92,29 @@ int List<ValueType>::PushEnd(const ValueType k)
 }
 
 template<class ValueType>
-Node<ValueType>* List<ValueType>::GetFirst(void)
+Node<ValueType>* List<ValueType>::GetFirst(void) //получение указателя на начало
 {
-	if (First == 0)
-		return First;
-	while (First != 0)
-		First = First->Next;
 	return First;
 }
 
 template<class ValueType>
-void List<ValueType>::Remove(ValueType k)
+void List<ValueType>::Remove(ValueType findkey) 
 {
-	Node<ValueType>* findnode = Find(k);
-	if (First == findnode)
+	Node<ValueType>* n = Find(findkey);
+	if (First == n)
 	{
 		First = First->Next;
 		return;
 	}
-	Node<ValueType>* first = First;
-	while (first->Next != findnode)
-		first = first->Next;
-	first->Next = findnode->Next;
-	delete first;
+	Node<ValueType>* tmp = First;
+	while (tmp->Next != n)
+		tmp = tmp->Next;
+	tmp->Next = n->Next;
+	delete n;
 }
 
 template<class ValueType>
-void List<ValueType>::RemoveStart(void)
-{
-	if ((First != 0) && (First->Next != 0))
-		First = First->Next;
-}
-
-template<class ValueType>
-List<ValueType>::List(const ValueType k)
-{
-	First = new Node<ValueType>(k);
-}
-
-template<class ValueType>
-List<ValueType>::List(const Node<ValueType>* n)
-{
-	First = n;
-}
-
-
-template<class ValueType>
-int List<ValueType>::PushStart(ValueType k)
+void List<ValueType>::PushStart(ValueType k) //вставка в начало
 {
 	Node<ValueType>* tmp;
 	try
@@ -128,15 +123,15 @@ int List<ValueType>::PushStart(ValueType k)
 	}
 	catch (...)
 	{
-		return 1;
+		throw
+			exception("You can't create list");
 	}
 	tmp->Next = First;
 	First = tmp;
-	return 0;
 }
 
 template<class ValueType>
-int List<ValueType>::operator==(const List<ValueType>& l)const
+int List<ValueType>::operator==(const List<ValueType>& l)const //перегрузка сравнения на равенство
 {
 	Node<ValueType>* f1 = First;
 	Node<ValueType>* f2 = l.First;
@@ -153,7 +148,37 @@ int List<ValueType>::operator==(const List<ValueType>& l)const
 }
 
 template<class ValueType>
-int List<ValueType>::operator!=(const List<ValueType>& l)const
+int List<ValueType>::operator!=(const List<ValueType>& l)const //перегрузка на неравенство
 {
 	return !(*this == l);
+}
+
+template <class ValueType>
+void List<ValueType>::PushBefore(ValueType findkey, ValueType k)
+{
+	Node<ValueType>* n = Find(findkey);
+	if (First == n)
+	{
+		PushStart(k);
+		return;
+	}
+	Node<ValueType>* prevnode = First;
+	while (prevnode->Next != n)
+		prevnode = prevnode->Next;
+	Node<ValueType>* t = prevnode->Next;
+	Node<ValueType>* tmp = new Node<ValueType>(k);
+	prevnode->Next = tmp;
+	tmp->Next = t;
+}
+
+template<class ValueType>
+void List<ValueType>::Print()const //вывод списка
+{
+	Node<ValueType>* tmp = First;
+	while (tmp != 0)
+	{
+		cout << tmp->key << ' ';
+		tmp = tmp->Next;
+	}
+	cout << endl;
 }

@@ -13,15 +13,3 @@ Node<ValueType>::Node(const ValueType& k)
 	key = k;
 }
 
-template<class ValueType>
-Node<ValueType>::Node(const Node<ValueType>* n)
-{
-	key = n->key;
-	Next = n->Next;
-}
-
-template<class ValueType>
-Node<ValueType>::~Node()
-{
-	delete Next;
-}
