@@ -73,7 +73,10 @@ template<class ValueType>
 int List<ValueType>::PushEnd(ValueType k) //вставка в конец
 {
 	if (First == 0)
+	{
 		PushStart(k);
+		return 0;
+	}
 	Node<ValueType>* n;
 	try
 	{
