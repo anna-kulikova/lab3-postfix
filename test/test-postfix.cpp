@@ -17,3 +17,11 @@ TEST(POSTFIX, can_calculate)
 	m['s'] = 5;
 	EXPECT_EQ(1, p.Count(p.Record(str), m));
 }
+
+TEST(POSTFIX, can_record)
+{
+	Postfix p;
+	string str = "a*(b+c-d)+(d/(f-c)-(k+l)/s)*k";
+	string str1 = p.Record(str);
+	EXPECT_EQ("abc+d-*dfc-/kl+s/-k*+", str1);
+}

@@ -36,9 +36,27 @@ int main(void)
 	map<char, ExpType> m;
 	Postfix p;
 	string str1;
-	str1 = p.Record(str);
+	try
+	{
+		str1 = p.Record(str);
+	}
+	catch (exception &e)
+	{
+		cout << e.what() << endl;
+		return 0;
+	}
+
 	cout << "Postfix form: " << str1 << endl;
-	ExpType result = p.Count(str1, m);
+	ExpType result;
+	try
+	{
+		result = p.Count(str1, m);
+	}
+	catch (exception &e)
+	{
+		cout << e.what() << endl;
+		return 0;
+	}
 	cout << "Result: " << result << endl;
 	return 0;
 }

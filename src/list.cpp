@@ -3,7 +3,7 @@
 #include "node.h"
 
 template<class ValueType>
-List<ValueType>::List()
+List<ValueType>::List() //конструктор по умолчанию
 {
 	First = 0;
 }
@@ -160,7 +160,7 @@ int List<ValueType>::operator!=(const List<ValueType>& l)const //перегрузка на н
 }
 
 template <class ValueType>
-void List<ValueType>::PushBefore(ValueType findkey, ValueType k)
+void List<ValueType>::PushBefore(ValueType findkey, ValueType k) //вставка перед элементов с заданным ключом
 {
 	Node<ValueType>* n = Find(findkey);
 	if (First == n)
