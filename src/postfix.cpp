@@ -82,7 +82,8 @@ int Postfix::Line(const string &s) const
 		if ((left == '-') && ((right == '+') || (right == '-') || (right == '/') || (right == ')') || (right == '+')))
 			return 1;
 		if ((right == ')') && ((left == '+') || (left == '-') || (left == '*') || (left == '/')))
-			return 1;		m = j;
+			return 1;
+		m = j;
 	}
 	return 0;
 }
