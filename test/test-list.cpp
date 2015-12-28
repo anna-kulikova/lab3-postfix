@@ -3,6 +3,7 @@
 #include <gtest.h>
 
 
+
 TEST(LIST, can_create_list)
 {
 	ASSERT_NO_THROW(new List<int>());
@@ -231,4 +232,16 @@ TEST(List, remove_end)
 	List<int>* list1 = new List<int>;
 	list1->PushStart(4);
 	EXPECT_EQ(*list1, *list);
+}
+
+TEST(LIST, throws_when_find_in_empty_list)
+{
+	List<int>* list = new List<int>;
+	ASSERT_ANY_THROW(list->Find(1));
+}
+
+TEST(LIST, throws_when_remove_from_empty_list)
+{
+	List<int>* list = new List<int>;
+	ASSERT_ANY_THROW(list->Remove(1));
 }

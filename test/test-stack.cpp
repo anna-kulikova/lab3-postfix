@@ -92,5 +92,3 @@ TEST(STACK, can_compare_equal_stacks)
 	ASSERT_NO_THROW(s == s1);
 }
 
-
-
