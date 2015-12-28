@@ -2,7 +2,7 @@
 #include "stack.h"
 #include <map>
 
-typedef int ExpType;
+typedef float ExpType;
 
 class Postfix
 {

@@ -31,13 +31,32 @@ int main(void)
 	ExpType res = p.Count(str1, m);
 	cout << "Result: " << res << endl;*/
 	string str;
+	cout << "Enter the expression: " << endl;
 	getline(cin, str);
 	map<char, ExpType> m;
 	Postfix p;
 	string str1;
-	str1 = p.Record(str);
-	cout << str1 << endl;
-	ExpType result = p.Count(str1, m);
-	cout << result << endl;
+	try
+	{
+		str1 = p.Record(str);
+	}
+	catch (exception &e)
+	{
+		cout << e.what() << endl;
+		return 0;
+	}
+
+	cout << "Postfix form: " << str1 << endl;
+	ExpType result;
+	try
+	{
+		result = p.Count(str1, m);
+	}
+	catch (exception &e)
+	{
+		cout << e.what() << endl;
+		return 0;
+	}
+	cout << "Result: " << result << endl;
 	return 0;
 }

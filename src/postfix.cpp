@@ -8,17 +8,17 @@ int Postfix::Operator(char k)
 	switch (k)
 	{
 		case '+':
-			return 1;
+			return 2;
 		case '-':
-			return 1;
+			return 2;
 		case '*':
 			return 3;
 		case '/':
 			return 3;
 		case '(':
-			return 2;
+			return 1;
 		case ')':
-			return 2;
+			return 1;
 	}
 	return 0;
 }
@@ -67,7 +67,11 @@ int Postfix::Line(const string &s) const
 			return 1;
 		if ((left == ')') && (right == '('))
 			return 1;
-		if (((p.Operator(left) == (p.Operator(right))) && ((left != ')') || (left != '('))) && (left != '-') && (right != '-'))
+		if ((left == right) && (left == '('))
+			continue;
+		if ((left == right) && (left == ')'))
+			continue;
+		if (p.Operator(left) == p.Operator(right))
 			return 1;
 		if ((left == '*') && ((right == '+') || (right == '-') || (right == '/') || (right == ')') || (right == '+')))
 			return 1;
@@ -84,7 +88,8 @@ int Postfix::Line(const string &s) const
 }
 
 
-string Postfix::Record(const string& infstring)const {
+string Postfix::Record(const string& infstring)const
+{
 
 	if (!infstring.length())
 		throw
@@ -95,8 +100,10 @@ string Postfix::Record(const string& infstring)const {
 		throw
 		exception("You have entered incorrect string");
 	map <char, int> operations;
-	operations['*'] = 3; operations['/'] = 3;
-	operations['+'] = 2; operations['-'] = 2;
+	operations['*'] = 3;
+	operations['/'] = 3;
+	operations['+'] = 2;
+	operations['-'] = 2;
 	operations['('] = 1;
 	Stack<char> result;
 	Stack<char> operationsstack;
@@ -108,21 +115,9 @@ string Postfix::Record(const string& infstring)const {
 		temp = infstring[i];
 		if (operations.count(temp))
 		{
-			char t = '0';
-			if ((!operationsstack.IsEmpty()))
-			{
-				t = operationsstack.Pop();
-				operationsstack.Push(t);
-			}
-			if ((operations[temp] < operations[t]) && (temp != '('))
-			{
-				while ((!operationsstack.IsEmpty()) && (operations[temp] < operations[t]))
-				{
-					t = operationsstack.Pop();
-					result.Push(t);
-				}
-				if (t == '(') result.Pop();
-			}
+			if ((!operationsstack.IsEmpty()) && (operations[temp] <= operations[operationsstack.GetKey()]) && (temp != '('))
+				while ((!operationsstack.IsEmpty()) && (operations[temp] <= operations[operationsstack.GetKey()]))
+					result.Push(operationsstack.Pop());
 			operationsstack.Push(temp);
 			continue;
 		}
@@ -139,7 +134,8 @@ string Postfix::Record(const string& infstring)const {
 				t = operationsstack.Pop();
 				result.Push(t);
 			}
-			if (t == '(') result.Pop();
+			if (t == '(')
+				result.Pop();
 			continue;
 		}
 		throw 
@@ -148,7 +144,8 @@ string Postfix::Record(const string& infstring)const {
 	while (!operationsstack.IsEmpty())
 		result.Push(operationsstack.Pop());
 	if (result.IsEmpty())
-		throw exception("You haven;t entered any expression");
+		throw 
+			exception("You haven't entered any expression");
 	string resultstring = "";
 	while (!result.IsEmpty())
 		operationsstack.Push(result.Pop());
@@ -157,9 +154,11 @@ string Postfix::Record(const string& infstring)const {
 	return resultstring;
 }
 
-ExpType Postfix::Count(const string& poststring, map<char, ExpType> values) {
+ExpType Postfix::Count(const string& poststring, map<char, ExpType> values)
+{
 	if (poststring == "")
-		throw exception("String is empty");
+		throw
+		exception("String is empty");
 	Stack<ExpType> result;
 	char tmp;
 	ExpType leftOperand;
@@ -188,7 +187,6 @@ ExpType Postfix::Count(const string& poststring, map<char, ExpType> values) {
 			result.Push(-rightOperand);
 			continue;
 		}
-
 		if (result.IsEmpty())
 			throw 
 			exception("There is no result");
@@ -205,7 +203,10 @@ ExpType Postfix::Count(const string& poststring, map<char, ExpType> values) {
 			result.Push(leftOperand * rightOperand);
 			break;
 		case '/':
-			result.Push(leftOperand / rightOperand);
+			if (rightOperand == 0)
+				throw
+				exception("You can't divide by 0");
+			result.Push(leftOperand / rightOperand);			
 			break;
 		}
 	}
@@ -213,6 +214,6 @@ ExpType Postfix::Count(const string& poststring, map<char, ExpType> values) {
 	ExpType res = result.Pop();
 	if (!result.IsEmpty())
 		throw
-		exception("Yoy have entered incorrect string");
+		exception("You have entered incorrect string");
 	return res;
 }
